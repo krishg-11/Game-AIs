@@ -10,6 +10,8 @@ for x in sys.argv[1:]:
     if(x == "X" or x == "O"):
         humTkn = x
     else:
+        assert len(x) == 9
+        assert len(list(filter(lambda char: char in "XO.", x))) == 9
         board = x
 global N
 N = int(len(board)**0.5)
