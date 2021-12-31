@@ -1,6 +1,6 @@
 from itertools import permutations
 
-filename = "scrabble.txt"
+filename = "../scrabble.txt"
 dict = {line.lower().strip() for line in open(filename)} # can use set where key = first letter of word
 dict = {x for x in dict if len(x) > 2}
 
