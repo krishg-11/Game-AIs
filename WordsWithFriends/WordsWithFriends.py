@@ -1,6 +1,8 @@
+#%% Import libraries
 from os import pathsep
 import sys
 
+#%% Dictionary of letter values
 letterScores = {"A":1, 
                 "B":4, 
                 "C":4, 
@@ -28,7 +30,7 @@ letterScores = {"A":1,
                 "Y":3, 
                 "Z": 10}
 
-
+#%% Helper methods
 def printBoard(board):
     print('\n'.join([board[ind:ind+N] for ind in range(0, len(board), N)]))
     
@@ -161,7 +163,7 @@ def validMove(board, pos, dir, word):
     return totalPoints
 
 
-#Read Inputs
+#%% Read Inputs
 movesFile = open(sys.argv[1])
 currHand = sys.argv[2].upper()
 wordsFile = open("../scrabble.txt")
@@ -169,7 +171,7 @@ wordsFile = open("../scrabble.txt")
 # currHand = "ALQXECP"
 # wordsFile = open("../scrabble.txt")
 
-#Useful Variables
+#%% Global variables
 global allWords, openChars, leftEdge, rightEdge, topEdge, bottomEdge, N, NSquare
 N = 11
 NSquare = N**2
@@ -181,7 +183,7 @@ topEdge = set(range(0, N))
 bottomEdge = set(range(NSquare-N, NSquare))
 
 
-# Assemble Current Board
+#%% Assemble Current Board
 board = createBoard()
 for line in movesFile:
     pos, dir, word, *_ = line.split(' ')
@@ -195,7 +197,7 @@ printBoard(board)
 print()
 
 
-#Build base openset for DFS
+#%% Build base openset for DFS
 openset = [] #DFS list -- format of each element: (startPos, dir, wordSoFar, tilesLeftInHand)
 for ind,char in enumerate(board):
     if(char in openChars):
@@ -214,7 +216,7 @@ for ind,char in enumerate(board):
             openset.append((newInd, "V", currHand[i], currHand[:i]+currHand[i+1:]))
         
     
-#DFS Brute Force
+#%% DFS Brute Force
 closedSet = set()
 possMoves = set() #list of all potential moves -- format of each element: (pointsFromMove, (pos, dir, word))
 while openset:
@@ -297,7 +299,7 @@ while openset:
                         openset.append(newNeighbor)
                         closedSet.add(newNeighbor)
        
-#Print out best possible moves                 
+#%% Print out best possible moves                 
 possMoves = sorted(list(possMoves), reverse=True)
 for i,data in enumerate(possMoves[:20]):
     score, tup = data

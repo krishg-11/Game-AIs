@@ -1,5 +1,7 @@
+#%% Import libraries
 import timeit, sys
 
+#%% Define global variables
 global N, SYMSET, subBlockHeight, subBlockWidth, CONSTRAINTS, NEIGHBORS
 
 
@@ -43,7 +45,7 @@ def setGlobals(pzl):
         NEIGHBORS.append(CONSTRAINTS[cons[0]].union(CONSTRAINTS[cons[1]], CONSTRAINTS[cons[2]]))
         NEIGHBORS[p].remove(p)
 
-
+#%% check if a puzzle is valid
 def isInvalid(pzl):
     global NEIGHBORS
     for p in range(len(pzl)):
@@ -51,9 +53,11 @@ def isInvalid(pzl):
             return True
     return False
 
+#%% checksum method
 def checkSum(pzl):
     return sum(ord(x) for x in pzl) - 81*ord("0")
 
+#%% Solve sudoku puzzle
 def bruteForce(pzl,psbll):
     global N, SYMSET, subBlockHeight, subBlockWidth, CONSTRAINTS, NEIGHBORS
 
@@ -100,11 +104,12 @@ def bruteForce(pzl,psbll):
             if bf: return bf
     return ""
 
-
+## Input Puzzle
 pzl = sys.argv[1] if len(sys.argv)>1 else ""
 if (not pzl):
     pzl = input("What is the given puzzle: ")
     
+#%% Run puzzle solver and output solution
 start = timeit.default_timer()
 
 setGlobals(pzl)

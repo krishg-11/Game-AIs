@@ -1,7 +1,8 @@
+#%% Import libraries
 import sys
-global constraints
 import msvcrt
 
+#%% Input board/player or use default values + data validation
 global humTkn
 humTkn = "a"
 board = "........."
@@ -13,6 +14,7 @@ for x in sys.argv[1:]:
         assert len(x) == 9
         assert len(list(filter(lambda char: char in "XO.", x))) == 9
         board = x
+#%% Define Global Variables
 global N
 N = int(len(board)**0.5)
 rows = [set(range(x,x+N)) for x in range(0,len(board),N)]
@@ -21,11 +23,14 @@ diag1 = set(range(0,len(board),N+1))
 diag2 = set(range(N-1,len(board)-1,N-1))
 diags = [diag1,diag2]
 
-
+global constraints
 constraints = rows+cols+diags
+
+#%% return set of possible moves (open positions)
 def possMoves(board):
     return({p for p,val in enumerate(board) if val=="."})
 
+#%% Return winner of game if game is over (1=X win, -1=O win, 0=draw, ""=game not over)
 def endGame(pzl):
     global constraints
     for cs in constraints:
@@ -37,6 +42,7 @@ def endGame(pzl):
         return 0
     return ""
 
+#%% Run megamax
 def megaMax(board, tkn):
     eg = endGame(board)
     if (eg == 0): return {"W":set(),"L":set(), "D":board} #returning board is dummy, just needs to be non-empty
@@ -55,6 +61,7 @@ def megaMax(board, tkn):
         res[brdCat].add(move)
     return res
 
+#%% Take in user input 
 def input():
     spot = msvcrt.getch()
     try:
@@ -63,15 +70,18 @@ def input():
         pass
     return spot
 
+#%% Flip current token
 def flipToken(tkn):
     return "X" if tkn == "O" else "O"
 
+#%% Output board aesthetically
 def output(board):
     global N
     for i in range(0,len(board),N):
         print(board[i:i+N])
     print()
 
+#%% Take in move input, validate, and do move on board
 def humanMove(board):
     print("What is your move?")
     empties = possMoves(board)
@@ -84,6 +94,7 @@ def humanMove(board):
     board = board[:spot] + tkn + board[spot+1:]
     return board
 
+#%% Computer does best possible move
 def compMove(board):
     global humTkn
     options = megaMax(board, flipToken(humTkn))
@@ -97,7 +108,7 @@ def compMove(board):
     board = board[:spotNow] + flipToken(humTkn) + board[spotNow+1:]
     return board
 
-
+#%% Instantiating game
 count = 0
 for x in board:
     if(x=="X"):count+=1
@@ -111,6 +122,7 @@ print()
 print("Indexing Scheme:")
 output("012345678")
 
+#%% Play game until over
 while(endGame(board)==""):
     output(board)
     if(tkn == humTkn):

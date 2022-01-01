@@ -1,5 +1,7 @@
+#%% Import Libraries
 import sys
 
+#%% Define TreeNode Class
 class TreeNode:
     def __init__(self, val, children = {}):
         self.val = val # character
@@ -8,7 +10,7 @@ class TreeNode:
     def hasChildren(self):
         return len(self.children) > 0
     
-## Import dictionary and build tree
+#%% Read in dictionary and build tree
 filename = "../scrabble.txt"
 head = TreeNode("_", {})
 for line in open(filename):
@@ -24,7 +26,7 @@ for line in open(filename):
 dict = {line.lower().strip() for line in open(filename)} # can use set where key = first letter of word
 dict = {x for x in dict if len(x) > 2}
 
-## Get board from input and data validate
+#%% Get board from input and data validate
 if (len(sys.argv) > 1):
     board = sys.argv[1]
 else:
@@ -33,7 +35,7 @@ else:
 board = board.lower()
 assert len(board) == 16
 
-## Globals
+#%% Globals
 N = 4
 
 topEdge = set(range(N))
@@ -51,7 +53,7 @@ for delta_r in [-1,0,1]:
 deltaSansLeft = deltaPos - {-N-1, -1, N-1}
 deltaSansRight = deltaPos - {-N+1, 1, N+1}
 
-## DFS
+#%% DFS
 output = []
 openset = [(c, head.children[c], i, {i}, [i]) for i,c in enumerate(board)]
 while openset:
@@ -81,6 +83,7 @@ while openset:
         new_path = path + [new_pos]
         openset.append((new_word, new_node, new_pos, new_prev, new_path))
 
+#%% Filter out repeated words and sort
 clean_output = []
 words = set()
 for word, path in output:
@@ -88,8 +91,9 @@ for word, path in output:
         continue
     words.add(word)
     clean_output.append((word, path))
-    
 clean_output.sort(key=lambda x: len(x[0]))
+
+#%% Print output
 for word,path in clean_output:
     path = " -> ".join(map(str, path))
     print(word, path, sep = "\t")
