@@ -18,16 +18,16 @@ json.dump(valid_guesses, open("first_guess.json", "w"))
 Best First Words:
 word    average answers left
 -----------------------------
-roate   86.175
-raise   87.299
-raile   87.892
-soare   88.509
-irate   88.706
-orate   88.822
-artel   89.347
-ariel   89.387
-arise   89.619
-taler   91.011
+roate	60.425
+raise	61.001
+raile	61.331
+soare	62.301
+arise	63.726
+irate	63.779
+orate	63.891
+ariel	65.288
+arose	66.021
+raine	67.056'
 '''
         
         
