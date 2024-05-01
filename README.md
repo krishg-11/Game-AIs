@@ -37,7 +37,9 @@ The wordle_player.py script is used to play the NYT game Wordle. The program ask
 
 Since the optimal first guess does not change game-to-game, a separate script wordleFirstWord.py finds the optimal first word. The results of this script are stored in first_guess.json. According to the program, the best first guess is "roate." 
 
-The wordle_performance.py script is an exploratory script that analyzes the performance of our wordle bot by testing it against all potential wordle games. The current wordle bot solves a wordle game in an average of 3.495 guesses. Other interesting details about the bot's guesses are shown at the bottom of the file. 
+The wordle_performance.py script is an exploratory script that analyzes the performance of our wordle bot by testing it against all potential wordle games. The current wordle bot solves a wordle game in an average of 3.495 guesses. It also keeps track of the number of times each word is guessed by the AI. These results are stored in guess_counts.json. Other interesting details about the bot's guesses are shown at the bottom of the file.
+
+The wordle_functions.py script stores the meat of the code but can not be run on its own. All other scripts use the functions in wordle_functions.py.
 
 ## WordsWithFriends
 This program is used to play the game Words with Friends (similar to Scrabble). It takes in two command line inputs (detailed below). It then prints out the best possible moves that the user can make with their current hand and the number of points that each move will give the user. 

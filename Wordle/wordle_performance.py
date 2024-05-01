@@ -7,16 +7,21 @@ valid_guesses, answers, ans_by_letter = read_files("valid_guesses.txt", "valid_a
 move_counts = {}
 guess_counts = {guess:{i:0 for i in range(5)} for guess in valid_guesses}
 
+# First word is precalculated (wordleFirstWord.py)
 first_word = "roate"
 
+# Play 2.3k games for each word in answer bank
 for ans in answers:
     start = time.time()
+    
+    # Play first move
     guess = first_word
     result = guess_result(guess, ans)
     guess_counts[guess][0] += 1
     # print(f"Guessed {guess} with result {result}")
     poss_answers = filter_answers(answers, ans_by_letter, *result)
     move_count = 1
+    # Run through game, keeping track of words guessed
     while len(result[0]) != 5:
         guess = play_turn(poss_answers, valid_guesses, ans_by_letter)[0][1]
         result = guess_result(guess, ans)
@@ -27,6 +32,7 @@ for ans in answers:
     print(f"Solved {ans} in {move_count} moves and {time.time()-start:.3f} seconds")
     move_counts[ans] = move_count
 
+# Output statistics
 avg_moves = sum(move_counts[ans] for ans in move_counts) / len(move_counts)
 print("Average moves taken:", avg_moves)
 json.dump(guess_counts, open("guess_counts.json", "w"))

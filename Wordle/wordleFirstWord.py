@@ -4,8 +4,10 @@ import json
      
 valid_guesses, answers, ans_by_letter = read_files("valid_guesses.txt", "valid_answers.txt")
 
+# Try all guesses
 for guess in valid_guesses:
     start = time.time()
+    # keep track of avg number of answers remaning in domain
     guess_results = sum(len(filter_answers(answers, ans_by_letter, *guess_result(guess, ans))) for ans in answers)
     valid_guesses[guess] = guess_results / len(answers)
     print(guess, valid_guesses[guess], time.time() - start)
